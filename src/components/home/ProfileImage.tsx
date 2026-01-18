@@ -12,7 +12,7 @@ export default function ProfileImage({
   src,
   alt,
   size = 320,
-  showRing = true
+  showRing = false
 }: ProfileImageProps) {
   return (
     <div className="relative inline-block" style={{ width: size, height: size }}>
