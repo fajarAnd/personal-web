@@ -37,6 +37,10 @@ beads.right.meta.json
 .sync.lock
 sync_base.jsonl
 
+# Deprecated markdown-based storage (JSONL is source of truth)
+issues/
+closed/
+
 # NOTE: Do NOT add negation patterns (e.g., !issues.jsonl) here.
 # They would override fork protection in .git/info/exclude, allowing
 # contributors to accidentally commit upstream issue databases.

@@ -19,28 +19,28 @@
 
 ### Overview
 
-Project ini menggunakan **Beads** sebagai issue tracker yang terintegrasi dengan git. Beads menggunakan 3-tier storage architecture:
+Project ini menggunakan **Beads** sebagai issue tracker yang terintegrasi dengan git. Beads menggunakan 2-tier storage architecture:
 
 ```
 ┌─────────────────────────────────────────┐
-│  .beads/issues/*.md (Markdown)          │  ← Source of truth (git-tracked)
-│  - Human-readable                       │
+│  .beads/issues.jsonl                    │  ← Source of truth (git-tracked)
+│  - Authoritative issue database         │
+│  - One JSON line per entity             │
+│  - Merge-friendly format                │
 │  - Committed to git                     │
 └─────────────────────────────────────────┘
-              ↕ (sync via JSONL)
-┌─────────────────────────────────────────┐
-│  .beads/issues.jsonl                    │  ← Intermediary format
-│  - Structured data                      │
-│  - Git-tracked                          │
-│  - Required for import/export           │
-└─────────────────────────────────────────┘
-              ↕ (import/export)
+              ↕ (auto sync with 5s debounce)
 ┌─────────────────────────────────────────┐
 │  .beads/beads.db (SQLite)               │  ← Local cache (gitignored)
-│  - Fast queries & search                │
+│  - Fast queries with indexes            │
 │  - Auto-generated from JSONL            │
+│  - Never committed to git               │
 └─────────────────────────────────────────┘
 ```
+
+**Sync Mechanism:**
+- **Write:** CLI command → SQLite → mark dirty → FlushManager → JSONL export → git commit
+- **Read:** git pull → auto-import detection → SQLite merge → CLI query
 
 ### ⚠️ CRITICAL RULES
 
@@ -52,11 +52,11 @@ Project ini menggunakan **Beads** sebagai issue tracker yang terintegrasi dengan
 5. **ALWAYS** verify dengan `bd ready` atau `bd list`
 
 #### ❌ DON'T:
-1. **NEVER** edit markdown files di `.beads/issues/` secara manual
-2. **NEVER** create markdown files langsung di `.beads/issues/`
-3. **NEVER** edit `.beads/issues.jsonl` secara manual
-4. **NEVER** commit code tanpa sync beads changes
-5. **NEVER** skip git hooks installation
+1. **NEVER** edit `.beads/issues.jsonl` secara manual
+2. **NEVER** edit `.beads/beads.db` secara manual
+3. **NEVER** commit code tanpa sync beads changes
+4. **NEVER** skip git hooks installation
+5. **NEVER** force push without coordinating with team
 
 ---
 
@@ -281,13 +281,13 @@ git push
 
 ## Common Pitfalls
 
-### ❌ Pitfall #1: Manual Markdown Editing
+### ❌ Pitfall #1: Manual JSONL Editing
 
 **Problem:**
 ```bash
 # WRONG! ❌
-vim .beads/issues/personal-web-4.md
-git add .beads/issues/personal-web-4.md
+vim .beads/issues.jsonl
+git add .beads/issues.jsonl
 git commit -m "Update issue"
 ```
 
@@ -327,19 +327,18 @@ git push
 **Problem:**
 ```bash
 # WRONG! ❌
-cp ~/external-issues/*.md .beads/issues/
-git add .beads/issues/
-git commit -m "Import issues"
-# ❌ Database not populated, JSONL not created
+# Manually copying or editing JSONL without using bd commands
+vim .beads/issues.jsonl  # Direct edit
+# ❌ Database out of sync, no validation
 ```
 
 **Solution:**
 ```bash
 # CORRECT! ✅
-# 1. Convert to JSONL format first
+# 1. Convert external data to JSONL format
 python convert_to_jsonl.py > external.jsonl
 
-# 2. Import via bd
+# 2. Import via bd command
 bd import -i external.jsonl
 
 # 3. Sync to git
@@ -375,7 +374,7 @@ bd hooks install
 ```bash
 bd list --status=open
 # Shows 0 issues
-# But .beads/issues/*.md has 10 files!
+# But .beads/issues.jsonl has 10 lines!
 ```
 
 **Solution:**
@@ -383,9 +382,8 @@ bd list --status=open
 # 1. Check what's wrong
 bd doctor
 
-# 2. If JSONL is empty, regenerate it
-# (This should not happen with hooks installed)
-# If it does, you may need to re-import
+# 2. Re-import from JSONL to rebuild database
+bd import -i .beads/issues.jsonl
 
 # 3. Verify fix
 bd list --status=all
@@ -406,19 +404,18 @@ sqlite3 .beads/beads.db "SELECT COUNT(*) FROM issues;"
 
 # Check JSONL
 wc -l .beads/issues.jsonl
-# Returns 0
-
-# But markdown files exist
-ls .beads/issues/*.md | wc -l
-# Returns 10
+# Returns 10 (has data!)
 ```
 
 **Solution:**
 ```bash
-# Database and JSONL out of sync
-# Parse markdown → JSONL → Import
-bd export --force  # Try export first
-bd import          # If that fails, manual import needed
+# Database out of sync with JSONL
+# Re-import from JSONL
+bd import -i .beads/issues.jsonl
+
+# Verify
+bd list --status=all
+bd stats
 ```
 
 ---
@@ -494,9 +491,10 @@ bd doctor             # Check for issues
 bd hooks install      # Install git hooks
 
 # Verification
-sqlite3 .beads/beads.db "SELECT COUNT(*) FROM issues;"
-wc -l .beads/issues.jsonl
-ls .beads/issues/*.md | wc -l
+bd stats              # High-level project stats
+bd list --status=all  # List all issues
+sqlite3 .beads/beads.db "SELECT COUNT(*) FROM issues;"  # DB count
+wc -l .beads/issues.jsonl  # JSONL count (should match DB)
 ```
 
 ---
@@ -511,19 +509,21 @@ Developer/AI Agent
    bd close
        ↓
 ┌──────────────────┐
-│  SQLite Database │ ← Fast queries, indexed search
+│  SQLite Database │ ← Local cache (gitignored)
+│   (beads.db)     │   Fast queries with indexes
 └──────────────────┘
-       ↓ (auto-flush via hooks)
+       ↓ (auto-flush via hooks, 5s debounce)
 ┌──────────────────┐
-│  issues.jsonl    │ ← Intermediate format
+│  issues.jsonl    │ ← Source of truth (git-tracked)
+│                  │   One JSON line per entity
 └──────────────────┘
-       ↓ (git commit)
+       ↓ (git commit/push)
 ┌──────────────────┐
-│  Git Repository  │ ← Version control
+│  Git Repository  │ ← Remote collaboration
 └──────────────────┘
-       ↓ (git pull)
+       ↓ (git pull, auto-import)
 ┌──────────────────┐
-│  Other Clones    │ ← Collaboration
+│  Other Clones    │ ← Distributed teams
 └──────────────────┘
 ```
 
@@ -531,7 +531,7 @@ Developer/AI Agent
 
 ## Summary: Golden Rules
 
-1. 🎯 **Use bd commands**: Never edit markdown manually
+1. 🎯 **Use bd commands**: Never edit JSONL or database manually
 2. 🔄 **Sync regularly**: `bd sync` after significant changes
 3. 🪝 **Install hooks**: `bd hooks install` (one-time setup)
 4. ✅ **Verify always**: `bd ready`, `bd list`, `bd stats`
