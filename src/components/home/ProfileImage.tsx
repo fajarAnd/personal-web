@@ -25,8 +25,12 @@ export default function ProfileImage({
 
       {/* Profile Image Container */}
       <div
-        className="relative rounded-full overflow-hidden border-[3px] border-white/20 bg-gradient-to-br from-accent-blue to-purple-600"
-        style={{ width: size, height: size }}
+        className="relative animate-morph overflow-hidden bg-gradient-to-br from-accent-blue to-purple-600"
+        style={{
+          width: size,
+          height: size,
+          boxShadow: 'rgba(255, 255, 255, 0.3) 0px 0px 0px 9px inset'
+        }}
       >
         <Image
           src={src}
@@ -35,6 +39,9 @@ export default function ProfileImage({
           className="object-cover"
           priority
           sizes={`${size}px`}
+          style={{
+            mixBlendMode: 'multiply'
+          }}
           onError={(e) => {
             // If image fails to load, keep the gradient background
             e.currentTarget.style.display = 'none';
