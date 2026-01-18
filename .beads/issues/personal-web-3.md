@@ -4,7 +4,7 @@
 |-------|-------|
 | **ID** | personal-web-3 |
 | **Type** | task |
-| **Status** | open |
+| **Status** | closed |
 | **Priority** | high |
 | **Created** | 2026-01-18 |
 | **Labels** | |

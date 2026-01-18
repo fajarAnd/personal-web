@@ -45,7 +45,7 @@ Portfolio web berbasis Next.js dan React yang dirancang sebagai representasi pro
 ## Child Issues
 
 - [x] [[personal-web-2]] Setup Next.js project structure and dependencies
-- [ ] [[personal-web-3]] Create global design system
+- [x] [[personal-web-3]] Create global design system
 - [ ] [[personal-web-4]] Build core layout components
 - [ ] [[personal-web-5]] Implement Home page
 - [ ] [[personal-web-6]] Implement About page
