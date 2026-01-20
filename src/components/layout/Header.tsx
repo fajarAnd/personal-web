@@ -17,7 +17,7 @@ export default function Header({ onMobileMenuToggle }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 h-16 md:h-20 bg-primary-dark/80 backdrop-blur-md border-b border-border-color z-30">
+    <header className="sticky top-0 h-16 md:h-20 bg-primary-dark/80 backdrop-blur-md z-30">
       <div className="h-full flex items-center justify-between px-4 md:px-8">
         {/* Mobile Menu Toggle (only visible on mobile) */}
         <button

@@ -32,9 +32,9 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-full bg-primary-dark border-r border-border-color z-40 flex flex-col w-20 md:w-[250px] transition-all duration-300">
+    <aside className="fixed left-0 top-0 h-full bg-primary-dark z-40 flex flex-col w-20 md:w-[250px] transition-all duration-300">
       {/* Logo */}
-      <div className="p-4 md:p-6 border-b border-border-color">
+      <div className="p-4 md:p-6">
         <Link href="/" className="block">
           <h2 className="text-lg md:text-2xl font-bold text-text-primary truncate">
             <span className="hidden md:inline">{SITE_NAME}</span>
@@ -75,7 +75,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-border-color">
+      <div className="p-4">
         <p className="text-xs text-text-secondary text-center md:text-left">
           <span className="hidden md:inline">
             &copy; {new Date().getFullYear()} {SITE_NAME}
