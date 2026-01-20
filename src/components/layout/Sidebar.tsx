@@ -58,7 +58,7 @@ export default function Sidebar() {
                     flex items-center gap-3 px-3 md:px-4 py-3 rounded-md
                     transition-all duration-200
                     ${active
-                      ? 'bg-accent/10 text-accent border-l-4 border-accent'
+                      ? 'text-text-primary'
                       : 'text-text-secondary hover:bg-secondary-dark hover:text-text-primary'
                     }
                   `}
