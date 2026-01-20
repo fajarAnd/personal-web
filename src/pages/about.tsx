@@ -1,5 +1,11 @@
 import { Layout } from '@/components/layout';
-import { PersonalInfoGrid } from '@/components/about';
+import {
+  PersonalInfoGrid,
+  SkillsProgress,
+  KnowledgeList,
+  Timeline,
+  Testimonials
+} from '@/components/about';
 import Image from 'next/image';
 import { FaDownload } from 'react-icons/fa';
 
@@ -54,22 +60,15 @@ export default function About() {
             {/* Bio Paragraphs */}
             <div className="space-y-4 text-text-secondary leading-relaxed">
               <p>
-                I am a passionate web developer with over 8 years of experience in creating
-                beautiful, functional, and user-friendly websites and applications. My journey
-                in web development started with a curiosity about how things work on the
-                internet, and it has evolved into a full-fledged career that I absolutely love.
+                Hi, my name is Adriano Smith and I began using WordPress when it first began.
+                I&apos;ve spent most of my waking hours for the last ten years designing, programming
+                and operating WordPress sites.
               </p>
               <p>
-                Throughout my career, I&apos;ve had the opportunity to work with diverse clients
-                ranging from startups to established companies, helping them bring their digital
-                visions to life. I specialize in modern web technologies and frameworks, with
-                a strong focus on creating responsive designs and optimal user experiences.
-              </p>
-              <p>
-                When I&apos;m not coding, you can find me exploring new technologies, contributing
-                to open-source projects, or enjoying outdoor activities. I believe in continuous
-                learning and staying updated with the latest trends in web development to deliver
-                the best solutions to my clients.
+                One of my specialties is taking an idea from scratch and creating a full-fledged platform.
+                I go beyond to produce sites with a unique, outstanding, contemporary look-and-feel. With
+                extensive knowledge of web mechanics, I&apos;m able to optimize complex integrations to
+                require little-to-no maintenance while running on their own for years.
               </p>
             </div>
           </div>
@@ -92,6 +91,120 @@ export default function About() {
             <span>Download CV</span>
           </a>
         </div>
+
+        {/* Skills Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {/* Programming Skills */}
+          <SkillsProgress
+            title="Programming Skills"
+            skills={[
+              { name: 'WordPress', percentage: 95 },
+              { name: 'JavaScript', percentage: 80 },
+              { name: 'Angular', percentage: 90 }
+            ]}
+          />
+
+          {/* Language Skills */}
+          <SkillsProgress
+            title="Language Skills"
+            skills={[
+              { name: 'English', percentage: 90 },
+              { name: 'Russian', percentage: 90 },
+              { name: 'Arabic', percentage: 85 }
+            ]}
+          />
+        </div>
+
+        {/* Knowledge & Interests */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {/* Knowledge */}
+          <KnowledgeList
+            title="Knowledge"
+            items={[
+              'Bootstrap, Angular',
+              'React, Vue, Laravel',
+              'Stylus, Sass, Less',
+              'Gulp, Webpack, Grunt',
+              'Tweenmax, GSAP'
+            ]}
+          />
+
+          {/* Interests */}
+          <KnowledgeList
+            title="Interests"
+            items={[
+              'Make UI/UX Design',
+              'Create Mobile App',
+              'Site Optimization',
+              'Custom Website',
+              'Learn Ecommerce'
+            ]}
+          />
+        </div>
+
+        {/* Education & Experience */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {/* Education */}
+          <Timeline
+            title="Education"
+            items={[
+              {
+                year: '2014 - 2016',
+                title: 'Oxford University',
+                subtitle: 'Master Degree'
+              },
+              {
+                year: '2010 - 2014',
+                title: 'Texas University',
+                subtitle: 'Bachelor Degree'
+              },
+              {
+                year: '2008 - 2010',
+                title: 'Simone College',
+                subtitle: 'Associate Degree'
+              }
+            ]}
+          />
+
+          {/* Experience */}
+          <Timeline
+            title="Experience"
+            items={[
+              {
+                year: '2018 - Now',
+                title: 'Envato Market',
+                subtitle: 'Exclusive Author'
+              },
+              {
+                year: '2016 - 2018',
+                title: 'RGB Studio',
+                subtitle: 'UX Designer'
+              },
+              {
+                year: '2012 - 2016',
+                title: 'Innovations Park',
+                subtitle: 'Web Designer'
+              }
+            ]}
+          />
+        </div>
+
+        {/* Testimonials */}
+        <Testimonials
+          title="Testimonials"
+          testimonials={[
+            {
+              quote: 'Beautiful minimalist design and great, fast response with support. Highly recommend. Thanks Marketify!',
+              name: 'Alexander Walker',
+              position: 'Graphic Designer'
+            },
+            {
+              quote: 'Beautiful minimalist design and great, fast response with support. Highly recommend. Thanks Marketify!',
+              name: 'Isabelle Smith',
+              position: 'Content Manager'
+            }
+          ]}
+        />
       </div>
     </Layout>
   );
