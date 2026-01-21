@@ -12,16 +12,16 @@ export default function ProfileImage({
   src,
   alt,
   size = 320,
-  showRing = false
+  showRing = true
 }: ProfileImageProps) {
   return (
     <div className="relative inline-block" style={{ width: size, height: size }}>
       {/* Animated Ring */}
-      {showRing && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <AnimatedRing size={size} strokeWidth={3} duration={3} color="#3b82f6" />
-        </div>
-      )}
+      {/*{showRing && (*/}
+      {/*  <div className="absolute inset-0 flex items-center justify-center">*/}
+      {/*    <AnimatedRing size={size} strokeWidth={3} duration={3} color="#3b82f6" />*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
       {/* Profile Image Container */}
       <div
@@ -29,7 +29,8 @@ export default function ProfileImage({
         style={{
           width: size,
           height: size,
-          boxShadow: 'rgba(255, 255, 255, 0.3) 0px 0px 0px 9px inset'
+          boxShadow: 'rgba(255, 255, 255, 0.3) 0px 0px 0px 9px inset',
+          border: '3px solid #9ca3af' // Gray border
         }}
       >
         <Image
@@ -39,18 +40,14 @@ export default function ProfileImage({
           className="object-cover"
           priority
           sizes={`${size}px`}
-          style={{
-            mixBlendMode: 'multiply'
-          }}
+          // style={{
+          //   mixBlendMode: 'multiply'
+          // }}
           onError={(e) => {
             // If image fails to load, keep the gradient background
             e.currentTarget.style.display = 'none';
           }}
         />
-        {/* Placeholder initials if image doesn't load */}
-        <div className="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold opacity-50">
-          {alt.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase()}
-        </div>
       </div>
     </div>
   );

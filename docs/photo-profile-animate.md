@@ -78,3 +78,6 @@ overflow: hidden;
 - CSS `border-radius` dengan 8 nilai untuk membuat bentuk organis
 - CSS Keyframe Animation untuk transisi bentuk yang halus
 - Inset box-shadow untuk efek border yang mengikuti bentuk
+
+
+Source: https://tokyo-nextjs.netlify.app/home

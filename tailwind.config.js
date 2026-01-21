@@ -8,10 +8,11 @@ module.exports = {
     extend: {
       colors: {
         'primary-dark': '#000000',
-        'secondary-dark': '#1a1a1a',
+        'secondary-dark': '#151515',
         'text-primary': '#ffffff',
         'text-secondary': '#a0a0a0',
         'accent': '#00d4ff',
+        'accent-gold': '#d4a24c',
         'border-color': '#404040',
       },
       spacing: {

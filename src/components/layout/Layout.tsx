@@ -33,7 +33,7 @@ export default function Layout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="min-h-screen bg-primary-dark">
+      <div className="min-h-screen bg-secondary-dark">
         {/* Sidebar - Fixed */}
         <Sidebar />
 

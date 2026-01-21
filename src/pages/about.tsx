@@ -92,27 +92,29 @@ export default function About() {
           </a>
         </div>
 
-        {/* Skills Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {/* Programming Skills */}
-          <SkillsProgress
-            title="Programming Skills"
-            skills={[
-              { name: 'WordPress', percentage: 95 },
-              { name: 'JavaScript', percentage: 80 },
-              { name: 'Angular', percentage: 90 }
-            ]}
-          />
+        {/* Skills Section - Full Width Background */}
+        <div className="-mx-4 md:-mx-8 px-4 md:px-8 py-8 md:py-10 bg-primary-dark">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            {/* Programming Skills */}
+            <SkillsProgress
+              title="Programming Skills"
+              skills={[
+                { name: 'WordPress', percentage: 95 },
+                { name: 'JavaScript', percentage: 80 },
+                { name: 'Angular', percentage: 90 }
+              ]}
+            />
 
-          {/* Language Skills */}
-          <SkillsProgress
-            title="Language Skills"
-            skills={[
-              { name: 'English', percentage: 90 },
-              { name: 'Russian', percentage: 90 },
-              { name: 'Arabic', percentage: 85 }
-            ]}
-          />
+            {/* Language Skills */}
+            <SkillsProgress
+              title="Language Skills"
+              skills={[
+                { name: 'English', percentage: 90 },
+                { name: 'Russian', percentage: 90 },
+                { name: 'Arabic', percentage: 85 }
+              ]}
+            />
+          </div>
         </div>
 
         {/* Knowledge & Interests */}
