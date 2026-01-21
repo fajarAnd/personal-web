@@ -48,7 +48,7 @@ export default function SkillsProgress({ title, skills }: SkillsProgressProps) {
           {/* Progress bar - thin line style matching Tokyo template */}
           <div className="w-full bg-border-color h-[3px] overflow-hidden">
             <div
-              className="bg-accent-gold h-full transition-all duration-1000 ease-out"
+              className="bg-white h-full transition-all duration-1000 ease-out"
               style={{
                 width: isVisible ? `${skill.percentage}%` : '0%',
                 transitionDelay: `${index * 150}ms`

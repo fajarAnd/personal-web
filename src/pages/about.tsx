@@ -26,6 +26,13 @@ export default function About() {
         </div>
 
         {/* Profile Section */}
+      <div
+          className="py-8 md:py-10 bg-primary-dark"
+          style={{
+              boxShadow: '0 0 0 100vmax #000000',
+              clipPath: 'inset(0 -100vmax)',
+          }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 md:gap-12">
           {/* Profile Image */}
           <div className="lg:col-span-2">
@@ -73,6 +80,7 @@ export default function About() {
             </div>
           </div>
         </div>
+      </div>
 
         {/* Personal Information Grid */}
         <div className="space-y-8">
@@ -92,8 +100,14 @@ export default function About() {
           </a>
         </div>
 
-        {/* Skills Section - Full Width Background */}
-        <div className="-mx-4 md:-mx-8 px-4 md:px-8 py-8 md:py-10 bg-primary-dark">
+        {/* Skills Section - Full Width Background connecting to sidebar */}
+        <div
+          className="py-8 md:py-10 bg-primary-dark"
+          style={{
+            boxShadow: '0 0 0 100vmax #000000',
+            clipPath: 'inset(0 -100vmax)',
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {/* Programming Skills */}
             <SkillsProgress
